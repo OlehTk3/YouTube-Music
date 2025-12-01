@@ -15,6 +15,6 @@
 - **Features:** Functions, Stored Procedures & Triggers  
 
 ### 📈 Power BI
-- Visualizations of **Grades** & **Absences**
+- Visualizations Power BI
 
 ![Диаграмма модели](YouTubeMusic-power-bi/1_YouTubeMusic_Power_BI.png)
