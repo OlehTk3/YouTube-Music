@@ -1,5 +1,24 @@
 # YouTube-Music
 
+# 📚 Digital Transformation of Schools in Bulgaria
+
+## 🖥 Software Modeling and Analysis Project
+
+### 📊 Model Diagrams
+- **Conceptual Model** – Chen's Database Notation  
+- **Logical Model** – Crow's Foot Database Notation  
+- **Physical Model** – UML Database Notation  
+- **Data Warehouse Model** – UML Database Notation, Snowflake & Star Schema  
+
+### 🗄 Database
+- **Platform:** MS SQL Server  
+- **Tool:** Microsoft SQL Server Management Studio  
+- **Tables:**  
+Tables: Artist, Album, Song, UserAccount, Playlist, PlaylistItem, UserLikesSong, Comment, Subscription;
+- **Features:** Functions, Stored Procedures & Triggers  
+
+### 📈 Power BI
+- Visualizations of **Grades** & **Absences**
 
 Software Modeling and Analysis Project
 
@@ -13,7 +32,7 @@ Database:
 
 MS SQL Server;
 Microsoft SQL Server Management Studio;
-Tables: Student, Teacher, Principal, Class, School, School_Type, Address, Grade, Grade_Type, Subject, Lesson & Absence;
+Tables: Artist, Album, Song, UserAccount, Playlist, PlaylistItem, UserLikesSong, Comment, Subscription;
 Functions, Stored Procedures & Triggers.
 Power BI:
 
