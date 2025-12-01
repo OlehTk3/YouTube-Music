@@ -1,6 +1,6 @@
 /*Съхранени процедури
 1. Процедура за намиране 5 TopLikedSongs*/
-CREATE OR ALTER PROCEDURE TopLikedSongs
+CREATE PROCEDURE TopLikedSongs
 AS
 BEGIN
     SELECT TOP 5 
@@ -108,6 +108,7 @@ VALUES (101, 'Test trigger comment', 2, 15);
 SELECT comment_id, content, posted_at, user_id, song_id
 FROM Comment
 WHERE comment_id = 101;
+
 
 
 
