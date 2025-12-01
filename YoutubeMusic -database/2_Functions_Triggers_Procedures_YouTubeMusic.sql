@@ -21,10 +21,10 @@ BEGIN
     ORDER BY likes_count DESC, s.song_id ASC;
 END;
 
--- Èçâèêâàíå íà ïðîöåäóðàòà
+-- Извикване на процедурата
 EXEC TopLikedSongs;
 
-/*2. Ïðîöåäóðà çà âðúùàíå íà âñè÷êè ïåñíè â äàäåí ïëåéëèñò*/
+/*2. Процедура за връщане на всички песни в даден плейлист*/
 CREATE PROCEDURE GetPlaylistSongs
     @playlist_id INT
 AS
@@ -36,14 +36,12 @@ BEGIN
     ORDER BY pi.position_number;
 END;
 
--- Èçâèêâàíå íà ïðîöåäóðàòà çà ïëåéëèñò ñ ID = 5
+-- Извикване на процедурата за плейлист с ID = 5
 EXEC GetPlaylistSongs @playlist_id = 5;
 
--- Ìîæåø äà ïðîáâàø è ñ äðóã ïëåéëèñò
-EXEC GetPlaylistSongs @playlist_id = 10;
 
-/*Ôóíêöèè
-1. Ôóíêöèÿ çà áðîåíå íà ëàéêîâåòå íà ïåñåí*/
+/*Функции
+1. Функция за броене на лайковете на песен*/
 CREATE FUNCTION GetSongLikes(@song_id INT)
 RETURNS INT
 AS
@@ -53,14 +51,12 @@ BEGIN
     RETURN @likes;
 END;
 
--- Ïðîâåðêà çà ïåñåí ñ ID = 50
+-- Проверка за песен с ID = 50
 SELECT dbo.GetSongLikes(50) AS LikesCount;
 
--- Ìîæåø äà ïðîáâàø è ñ äðóãà ïåñåí
-SELECT dbo.GetSongLikes(1) AS LikesCount;
 
 
-/*2. Ôóíêöèÿ çà ïðîâåðêà äàëè äàäåí ïîòðåáèòåë èìà Premium àáîíàìåíò*/
+/*2. Функция за проверка дали даден потребител има Premium абонамент*/
 CREATE FUNCTION IsPremiumUser(@user_id INT)
 RETURNS BIT
 AS
@@ -74,15 +70,14 @@ BEGIN
     RETURN @result;
 END;
 
--- Ïðîâåðêà çà ïîòðåáèòåë ñ ID = 5
+-- Проверка за потребител с ID = 5
 SELECT dbo.IsPremiumUser(5) AS IsPremium;
 
--- Ïðîâåðêà çà ïîòðåáèòåë ñ ID = 2
+-- Проверка за потребител с ID = 2
 SELECT dbo.IsPremiumUser(2) AS IsPremium;
 
-
-/*Òðèãåðè
-1. Òðèãúð çà àâòîìàòè÷íî çàäàâàíå íà äàòà ïðè íîâ ëàéê*/
+/*Тригери
+1. Тригър за автоматично задаване на дата при нов лайк*/
 CREATE TRIGGER trg_SetLikeDate
 ON UserLikesSong
 AFTER INSERT
@@ -93,16 +88,16 @@ BEGIN
     WHERE like_id IN (SELECT like_id FROM inserted);
 END;
 
--- Âìúêâàìå íîâ ëàéê áåç äà çàäàâàìå äàòà
+-- Вмъкваме нов лайк без да задаваме дата
 INSERT INTO UserLikesSong (like_id, user_id, song_id)
 VALUES (201, 1, 10);
 
--- Ïðîâåðÿâàìå äàëè òðèãåðúò å ïîïúëíèë äàòàòà
+-- Проверяваме дали тригерът е попълнил датата
 SELECT like_id, user_id, song_id, liked_at
 FROM UserLikesSong
 WHERE like_id = 201;
 
-/*2.Òðèãúð: àâòîìàòè÷íî çàäàâàíå íà òåêóùà äàòà ïðè äîáàâÿíå íà íîâ êîìåíòàð*/
+/*2.Тригър: автоматично задаване на текуща дата при добавяне на нов коментар*/
 CREATE TRIGGER trg_SetCommentDate
 ON Comment
 AFTER INSERT
@@ -113,14 +108,15 @@ BEGIN
     WHERE comment_id IN (SELECT comment_id FROM inserted);
 END;
 
--- Âìúêâàìå íîâ êîìåíòàð áåç äà çàäàâàìå äàòà
+-- Вмъкваме нов коментар без да задаваме дата
 INSERT INTO Comment (comment_id, content, user_id, song_id)
 VALUES (101, 'Test trigger comment', 2, 15);
 
--- Ïðîâåðÿâàìå äàëè òðèãåðúò å ïîïúëíèë äàòàòà
+-- Проверяваме дали тригерът е попълнил датата
 SELECT comment_id, content, posted_at, user_id, song_id
 FROM Comment
 WHERE comment_id = 101;
+
 
 
 
