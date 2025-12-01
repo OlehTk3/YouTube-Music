@@ -1,5 +1,5 @@
-/*Съхранени процедури
-1. Процедура за намиране 5 TopLikedSongs*/
+/*РЎСЉС…СЂР°РЅРµРЅРё РїСЂРѕС†РµРґСѓСЂРё
+1. РџСЂРѕС†РµРґСѓСЂР° Р·Р° РЅР°РјРёСЂР°РЅРµ 5 TopLikedSongs*/
 
 SELECT COLUMN_NAME, DATA_TYPE
 FROM INFORMATION_SCHEMA.COLUMNS
@@ -21,10 +21,10 @@ BEGIN
     ORDER BY likes_count DESC, s.song_id ASC;
 END;
 
--- Извикване на процедурата
+-- Г€Г§ГўГЁГЄГўГ Г­ГҐ Г­Г  ГЇГ°Г®Г¶ГҐГ¤ГіГ°Г ГІГ 
 EXEC TopLikedSongs;
 
-/*2. Процедура за връщане на всички песни в даден плейлист*/
+/*2. ГЏГ°Г®Г¶ГҐГ¤ГіГ°Г  Г§Г  ГўГ°ГєГ№Г Г­ГҐ Г­Г  ГўГ±ГЁГ·ГЄГЁ ГЇГҐГ±Г­ГЁ Гў Г¤Г Г¤ГҐГ­ ГЇГ«ГҐГ©Г«ГЁГ±ГІ*/
 CREATE PROCEDURE GetPlaylistSongs
     @playlist_id INT
 AS
@@ -36,14 +36,14 @@ BEGIN
     ORDER BY pi.position_number;
 END;
 
--- Извикване на процедурата за плейлист с ID = 5
+-- Г€Г§ГўГЁГЄГўГ Г­ГҐ Г­Г  ГЇГ°Г®Г¶ГҐГ¤ГіГ°Г ГІГ  Г§Г  ГЇГ«ГҐГ©Г«ГЁГ±ГІ Г± ID = 5
 EXEC GetPlaylistSongs @playlist_id = 5;
 
--- Можеш да пробваш и с друг плейлист
+-- ГЊГ®Г¦ГҐГё Г¤Г  ГЇГ°Г®ГЎГўГ Гё ГЁ Г± Г¤Г°ГіГЈ ГЇГ«ГҐГ©Г«ГЁГ±ГІ
 EXEC GetPlaylistSongs @playlist_id = 10;
 
-/*Функции
-1. Функция за броене на лайковете на песен*/
+/*Г”ГіГ­ГЄГ¶ГЁГЁ
+1. Г”ГіГ­ГЄГ¶ГЁГї Г§Г  ГЎГ°Г®ГҐГ­ГҐ Г­Г  Г«Г Г©ГЄГ®ГўГҐГІГҐ Г­Г  ГЇГҐГ±ГҐГ­*/
 CREATE FUNCTION GetSongLikes(@song_id INT)
 RETURNS INT
 AS
@@ -53,14 +53,14 @@ BEGIN
     RETURN @likes;
 END;
 
--- Проверка за песен с ID = 50
+-- ГЏГ°Г®ГўГҐГ°ГЄГ  Г§Г  ГЇГҐГ±ГҐГ­ Г± ID = 50
 SELECT dbo.GetSongLikes(50) AS LikesCount;
 
--- Можеш да пробваш и с друга песен
+-- ГЊГ®Г¦ГҐГё Г¤Г  ГЇГ°Г®ГЎГўГ Гё ГЁ Г± Г¤Г°ГіГЈГ  ГЇГҐГ±ГҐГ­
 SELECT dbo.GetSongLikes(1) AS LikesCount;
 
 
-/*2. Функция за проверка дали даден потребител има Premium абонамент*/
+/*2. Г”ГіГ­ГЄГ¶ГЁГї Г§Г  ГЇГ°Г®ГўГҐГ°ГЄГ  Г¤Г Г«ГЁ Г¤Г Г¤ГҐГ­ ГЇГ®ГІГ°ГҐГЎГЁГІГҐГ« ГЁГ¬Г  Premium Г ГЎГ®Г­Г Г¬ГҐГ­ГІ*/
 CREATE FUNCTION IsPremiumUser(@user_id INT)
 RETURNS BIT
 AS
@@ -74,15 +74,15 @@ BEGIN
     RETURN @result;
 END;
 
--- Проверка за потребител с ID = 5
+-- ГЏГ°Г®ГўГҐГ°ГЄГ  Г§Г  ГЇГ®ГІГ°ГҐГЎГЁГІГҐГ« Г± ID = 5
 SELECT dbo.IsPremiumUser(5) AS IsPremium;
 
--- Проверка за потребител с ID = 2
+-- ГЏГ°Г®ГўГҐГ°ГЄГ  Г§Г  ГЇГ®ГІГ°ГҐГЎГЁГІГҐГ« Г± ID = 2
 SELECT dbo.IsPremiumUser(2) AS IsPremium;
 
 
-/*Тригери
-1. Тригър за автоматично задаване на дата при нов лайк*/
+/*Г’Г°ГЁГЈГҐГ°ГЁ
+1. Г’Г°ГЁГЈГєГ° Г§Г  Г ГўГІГ®Г¬Г ГІГЁГ·Г­Г® Г§Г Г¤Г ГўГ Г­ГҐ Г­Г  Г¤Г ГІГ  ГЇГ°ГЁ Г­Г®Гў Г«Г Г©ГЄ*/
 CREATE TRIGGER trg_SetLikeDate
 ON UserLikesSong
 AFTER INSERT
@@ -93,16 +93,16 @@ BEGIN
     WHERE like_id IN (SELECT like_id FROM inserted);
 END;
 
--- Вмъкваме нов лайк без да задаваме дата
+-- Г‚Г¬ГєГЄГўГ Г¬ГҐ Г­Г®Гў Г«Г Г©ГЄ ГЎГҐГ§ Г¤Г  Г§Г Г¤Г ГўГ Г¬ГҐ Г¤Г ГІГ 
 INSERT INTO UserLikesSong (like_id, user_id, song_id)
 VALUES (201, 1, 10);
 
--- Проверяваме дали тригерът е попълнил датата
+-- ГЏГ°Г®ГўГҐГ°ГїГўГ Г¬ГҐ Г¤Г Г«ГЁ ГІГ°ГЁГЈГҐГ°ГєГІ ГҐ ГЇГ®ГЇГєГ«Г­ГЁГ« Г¤Г ГІГ ГІГ 
 SELECT like_id, user_id, song_id, liked_at
 FROM UserLikesSong
 WHERE like_id = 201;
 
-/*2.Тригър: автоматично задаване на текуща дата при добавяне на нов коментар*/
+/*2.Г’Г°ГЁГЈГєГ°: Г ГўГІГ®Г¬Г ГІГЁГ·Г­Г® Г§Г Г¤Г ГўГ Г­ГҐ Г­Г  ГІГҐГЄГіГ№Г  Г¤Г ГІГ  ГЇГ°ГЁ Г¤Г®ГЎГ ГўГїГ­ГҐ Г­Г  Г­Г®Гў ГЄГ®Г¬ГҐГ­ГІГ Г°*/
 CREATE TRIGGER trg_SetCommentDate
 ON Comment
 AFTER INSERT
@@ -113,14 +113,15 @@ BEGIN
     WHERE comment_id IN (SELECT comment_id FROM inserted);
 END;
 
--- Вмъкваме нов коментар без да задаваме дата
+-- Г‚Г¬ГєГЄГўГ Г¬ГҐ Г­Г®Гў ГЄГ®Г¬ГҐГ­ГІГ Г° ГЎГҐГ§ Г¤Г  Г§Г Г¤Г ГўГ Г¬ГҐ Г¤Г ГІГ 
 INSERT INTO Comment (comment_id, content, user_id, song_id)
 VALUES (101, 'Test trigger comment', 2, 15);
 
--- Проверяваме дали тригерът е попълнил датата
+-- ГЏГ°Г®ГўГҐГ°ГїГўГ Г¬ГҐ Г¤Г Г«ГЁ ГІГ°ГЁГЈГҐГ°ГєГІ ГҐ ГЇГ®ГЇГєГ«Г­ГЁГ« Г¤Г ГІГ ГІГ 
 SELECT comment_id, content, posted_at, user_id, song_id
 FROM Comment
 WHERE comment_id = 101;
+
 
 
 
