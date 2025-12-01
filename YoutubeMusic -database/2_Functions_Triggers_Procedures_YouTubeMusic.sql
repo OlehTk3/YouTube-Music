@@ -1,13 +1,5 @@
 /*Съхранени процедури
 1. Процедура за намиране 5 TopLikedSongs*/
-
-SELECT COLUMN_NAME, DATA_TYPE
-FROM INFORMATION_SCHEMA.COLUMNS
-WHERE TABLE_NAME IN ('UserAccount','Song','UserLikesSong','Comment','Playlist','PlaylistItem');
-
-
-
-
 CREATE OR ALTER PROCEDURE TopLikedSongs
 AS
 BEGIN
@@ -116,6 +108,7 @@ VALUES (101, 'Test trigger comment', 2, 15);
 SELECT comment_id, content, posted_at, user_id, song_id
 FROM Comment
 WHERE comment_id = 101;
+
 
 
 
